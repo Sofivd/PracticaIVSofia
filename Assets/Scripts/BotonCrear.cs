@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class BotonCrear : MonoBehaviour
 {
@@ -12,7 +14,13 @@ public class BotonCrear : MonoBehaviour
     public GameObject[] Creaciones = new GameObject[4];
     static int BichoSeleccionado = 0;
     static bool Creacion = false;
+    private int objetos;
+    public TextMeshProUGUI objetosText;
 
+    private void Start()
+    {
+        objetos = 0;
+    }
     private void Update()
     {
         if(Creacion == true)
@@ -47,9 +55,16 @@ public class BotonCrear : MonoBehaviour
             int mascara = LayerMask.GetMask("Suelo");
             if (Physics.Raycast(rayoCamara, out crear,Mathf.Infinity ,mascara))
             {
-                Debug.Log("Inside");
-                // qUATERNION.IDENTITY -> (0,0,0)
-                GameObject.Instantiate(Creaciones[BichoSeleccionado], crear.point, Creaciones[BichoSeleccionado].transform.rotation);
+                if(crear.collider.gameObject.tag == "Suelo")
+                {
+                    Debug.Log("Inside");
+                    // qUATERNION.IDENTITY -> (0,0,0)
+                    GameObject.Instantiate(Creaciones[BichoSeleccionado], crear.point, Creaciones[BichoSeleccionado].transform.rotation);
+                    objetos++;
+                    Debug.Log(objetos);
+                    objetosText.text = "Objetos: " + objetos;
+                }
+                
             }
         }
     }
